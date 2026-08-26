@@ -1,6 +1,4 @@
 # Pobreza e informalidad laboral en el Perú
-
-Proyecto del curso **Data Mining** (Universidad del Pacífico, docente Soledad Espezúa) —
 Entrega 1 / Hito Formativo.
 
 ## Descripción del proyecto
@@ -18,17 +16,6 @@ indicadores?
 
 **Usuario del análisis:** Ministerio de Trabajo y Promoción del Empleo (MTPE) y gobiernos
 locales/regionales interesados en priorizar zonas de intervención.
-
-## Estructura del repositorio
-
-```
-├── README.md                     — este archivo
-├── notebook/
-│   └── Entrega1_Notebook.ipynb   — código fuente documentado (Google Colab / Jupyter)
-├── docs/
-│   └── Entrega1_Hito_Formativo.docx  — documento de la entrega (problema, fuentes, diagnóstico, plan de integración)
-└── data/                         — carpeta donde se colocan los archivos descargados (no se sube a GitHub, ver más abajo)
-```
 
 ## Fuentes de datos
 
@@ -62,15 +49,6 @@ locales/regionales interesados en priorizar zonas de intervención.
   4. El archivo trae filas de cabecera y notas metodológicas antes de la tabla de datos —
      se eliminan al cargarlo (ver notebook, sección 1).
 
-> Nota de vigencia: la última edición distrital publicada por el INEI es de 2018; no existe
-> aún una actualización distrital para 2024. Este proyecto combina informalidad laboral 2024
-> con el nivel de pobreza distrital más reciente disponible — esta diferencia de años queda
-> documentada como limitación en el documento de la entrega.
-
-Los archivos descargados **no se suben al repositorio** (son demasiado pesados y de
-distribución restringida por el INEI); cada quien los descarga siguiendo los pasos de arriba
-y los coloca en `data/` con los nombres que espera el notebook (ver siguiente sección).
-
 ## Cómo ejecutar el código
 
 1. Clonar el repositorio:
@@ -101,6 +79,6 @@ Instalación rápida:
 pip install pandas numpy matplotlib openpyxl
 ```
 
-## Integrante
+## Integrantes
 
-Daniela — Universidad del Pacífico
+Daniela Eléspuru y Thiago Ormeño
