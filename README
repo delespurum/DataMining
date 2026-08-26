@@ -1,84 +1,74 @@
-# Pobreza e informalidad laboral en el Perú
-Entrega 1 - Hito Formativo.
+# Pobreza e informalidad laboral en el Perú (2024)
 
-## Descripción del proyecto
+Proyecto de integración de datos que cruza la ENAHO 2024 (Módulo 500 — Empleo e Ingresos) con el
+Mapa de Pobreza Monetaria Distrital del INEI, para identificar patrones de informalidad laboral y
+pobreza a nivel distrital que no son evidentes al mirar cada fuente por separado.
 
-Este proyecto analiza la relación entre la informalidad laboral y la pobreza monetaria a
-nivel distrital en el Perú, integrando microdatos de la Encuesta Nacional de Hogares (ENAHO)
-2024 con el Mapa de Pobreza Provincial y Distrital del INEI. El objetivo del hito 1 es
-justificar el planteamiento del problema, documentar las fuentes de datos, definir la unidad
-de análisis y la clave de integración, y presentar una primera integración y exploración
-visual de los datos.
+**Problema aplicado:** el MTPE dispone de amplios microdatos de la ENAHO, pero no cuenta con un
+sistema exploratorio que combine simultáneamente informalidad, subocupación, ingresos y pobreza para
+priorizar territorios de intervención.
 
-**Problema aplicado:** ¿en qué distritos coexisten niveles altos de informalidad laboral y de
-pobreza monetaria, y qué patrones distinguen a esos distritos de aquellos con mejores
-indicadores?
+## Estructura del repositorio
 
-**Usuario del análisis:** Ministerio de Trabajo y Promoción del Empleo (MTPE) y gobiernos
-locales/regionales interesados en priorizar zonas de intervención.
+```
+├── notebooks/
+│   ├── Notebook_Pobreza_Informalidad.ipynb        # Carga, limpieza e integración de las 2 fuentes
+│   └── Visualizaciones_Pobreza_Informalidad.ipynb # Visualizaciones y hallazgos sobre la base integrada
+├── data/
+│   └── pobreza_informalidad_departamental_2024.csv # Salida de la integración (420 distritos)
+└── README.md
+```
 
 ## Fuentes de datos
 
-### 1. ENAHO 2024 — Módulo 500 (Empleo e Ingresos)
+| Fuente | Institución | Año | Enlace |
+|---|---|---|---|
+| ENAHO 2024 — Módulo 500 (Empleo e Ingresos) | INEI | 2024 | http://webinei.inei.gob.pe/anda_inei/index.php/catalog/816/get_microdata |
+| Mapa de Pobreza Monetaria Distrital | INEI | 2018 | https://www.gob.pe/institucion/inei/informes-publicaciones/3204872-mapa-de-pobreza-provincial-y-distrital-2018 |
 
-- **Institución:** Instituto Nacional de Estadística e Informática (INEI)
-- **Enlace:** http://iinei.inei.gob.pe/microdatos/
-- **Diccionario de variables:** https://proyectos.inei.gob.pe/iinei/srienaho/Descarga/DocumentosMetodologicos/2024-55/20_Diccionario_2024.pdf
-- **Contenido:** microdatos de personas de 14 años a más — condición de ocupación, categoría
-  ocupacional, informalidad laboral (`CODINFOR`), horas trabajadas, ingresos por trabajo.
-- **Cómo llegar al archivo** (la descarga no es un enlace único y directo):
-  1. Entrar al portal de Microdatos del INEI.
-  2. Seleccionar **"Consulta por Encuestas"**.
-  3. Buscar **"Encuesta Nacional de Hogares - ENAHO"**, periodo **Anual**, año **2024**.
-  4. Elegir el módulo **"500 - Empleo e Ingresos"**.
-  5. Seleccionar el formato de descarga (CSV, SPSS/SAV, STATA o DBF) y aceptar los términos de uso.
-  6. Descargar por separado el diccionario de variables desde la sección de documentación
-     metodológica de la misma encuesta.
+La ENAHO no se descarga como archivo único: hay que entrar a `proyectos.inei.gob.pe/microdatos` →
+Encuesta Nacional de Hogares - ENAHO → año 2024 → Módulo 500 (Empleo e Ingresos) → descargar en
+formato .csv o .sav. El Mapa de Pobreza se descarga junto a su Anexo Estadístico (.xlsx) desde la
+página de la publicación.
 
-### 2. Mapa de Pobreza Provincial y Distrital (INEI)
-
-- **Institución:** Instituto Nacional de Estadística e Informática (INEI)
-- **Enlace:** https://www.gob.pe/institucion/inei/colecciones/6608-mapa-de-pobreza
-- **Publicación de referencia:** https://www.inei.gob.pe/media/MenuRecursivo/publicaciones_digitales/Est/Lib1718/Libro.pdf (edición 2018, la más reciente con desagregación distrital)
-- **Contenido:** población proyectada, intervalo de confianza y tasa de incidencia de la
-  pobreza monetaria total, por distrito.
-- **Cómo llegar al archivo:**
-  1. Entrar a la colección "Mapa de Pobreza" en gob.pe/INEI (enlace de arriba).
-  2. Seleccionar la edición vigente del Mapa de Pobreza Provincial y Distrital.
-  3. Descargar la **"Base de datos"** (Excel / Anexo Estadístico) publicada junto al informe.
-  4. El archivo trae filas de cabecera y notas metodológicas antes de la tabla de datos —
-     se eliminan al cargarlo (ver notebook, sección 1).
+**Unidad de análisis:** distrito, identificado por `UBIGEO` (6 dígitos). **Llave de integración:**
+`UBIGEO`.
 
 ## Cómo ejecutar el código
 
-1. Clonar el repositorio:
+1. Clona el repositorio:
+   ```bash
+   git clone <URL-DE-ESTE-REPOSITORIO>
+   cd <nombre-del-repo>
    ```
-   git clone <URL-de-este-repositorio>
-   cd <nombre-del-repositorio>
+2. Instala las dependencias:
+   ```bash
+   pip install pandas numpy plotly nbformat jupyter
    ```
-2. Descargar ambas fuentes de datos siguiendo las instrucciones de la sección anterior y
-   colocarlas dentro de `data/`.
-3. Abrir `notebook/Entrega1_Notebook.ipynb` en Google Colab o Jupyter.
-4. En la primera celda de configuración, ajustar `RUTA_ENAHO` y `RUTA_POBREZA` con la ruta
-   real de los archivos descargados.
-5. Ejecutar las celdas en orden. El notebook cubre: carga de datos, inspección inicial,
-   validación de claves, revisión de duplicados, integración de fuentes, visualizaciones
-   iniciales y conclusiones preliminares.
+3. **Notebook de integración** (`notebooks/Notebook_Pobreza_Informalidad.ipynb`): requiere descargar
+   la ENAHO 2024 completa desde INEI (ver sección de fuentes) y ajustar la variable `RUTA_ENAHO` en la
+   celda de configuración con la ubicación del archivo descargado. Al ejecutarlo genera
+   `data/pobreza_informalidad_departamental_2024.csv`.
+4. **Notebook de visualizaciones** (`notebooks/Visualizaciones_Pobreza_Informalidad.ipynb`): no
+   requiere descargas adicionales, se ejecuta directamente sobre el CSV ya incluido en `data/`.
+   ```bash
+   jupyter notebook notebooks/Visualizaciones_Pobreza_Informalidad.ipynb
+   ```
 
-### Dependencias
+## Principales hallazgos
 
-```
-pandas
-numpy
-matplotlib
-openpyxl   # para leer el Excel del Mapa de Pobreza
-```
+- La correlación entre informalidad laboral y pobreza monetaria a nivel distrital es prácticamente
+  nula (r ≈ −0.07): son dos problemas que se solapan solo parcialmente en el territorio.
+- Esa independencia no es un artefacto del cruce: el ingreso laboral sí desciende de forma consistente
+  con la pobreza (r ≈ −0.41), lo que valida la integración.
+- Un cuadrante crítico de ~84 distritos (con muestra suficiente) combina alta informalidad y alta
+  pobreza simultáneamente, concentrado en la sierra norte y sur del país.
 
-Instalación rápida:
-```
-pip install pandas numpy matplotlib openpyxl
-```
+## Limitaciones conocidas
 
-## Integrantes
-
-Daniela Eléspuru y Thiago Ormeño
+- Desfase temporal: la ENAHO es de 2024 y el Mapa de Pobreza Distrital es de 2018 (el INEI no ha
+  publicado una actualización distrital más reciente).
+- La ENAHO está diseñada para representatividad nacional/departamental, no distrital; la mediana es de
+  14 personas encuestadas por distrito, por lo que las estimaciones a ese nivel son exploratorias.
+- `UBICACION_POBREZA_MONETARIA_TOTAL` no es una tasa sino un puesto en el ranking nacional de pobreza;
+  la tasa usada en los gráficos se reconstruyó a partir del intervalo de confianza publicado.
