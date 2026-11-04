@@ -40,9 +40,10 @@ La base integrada resultante tiene **1 270 distritos** (inner join sobre `UBIGEO
 .
 ├── README.md
 ├── requirements.txt
-├── DB/                                         # fuentes originales (no versionadas, ver abajo)
-│   ├── 2024Empleo e Ingresos.csv
-│   └── Anexo Estadístico.xlsx
+├── DB.zip                                      # fuentes originales comprimidas (descomprimir → DB/)
+│   └── DB/
+│       ├── 2024Empleo e Ingresos.csv
+│       └── Anexo Estadístico.xlsx
 ├── Notebook_Hito2_Matriz_Analitica.ipynb       # Hito 2: limpieza, integración y matriz analítica
 ├── Notebook_Hito3_Metodologia.ipynb            # ★ CUADERNO VIGENTE (Hito 3): clustering
 ├── Notebook_Pobreza_Informalidad.ipynb         # Hito 1 — superado, se conserva como registro
@@ -51,9 +52,9 @@ La base integrada resultante tiene **1 270 distritos** (inner join sobre `UBIGEO
 ├── Entrega_KMeans/                             # actividad previa: K-means (cuaderno + notas)
 ├── Entrega_DBSCAN_Jerarquico/                  # actividad previa: DBSCAN y jerárquico (cuaderno + notas)
 ├── Entregas/                                   # documentos y presentaciones entregados
-└── output/                                     # todo lo que generan los cuadernos
-    ├── matriz_analitica_distrital.csv          # matriz analítica del Hito 2 (1,270 × 47)
-    ├── diccionario_matriz_analitica.csv
+└── output/                                     # lo que generan los cuadernos (solo la matriz se versiona)
+    ├── matriz_analitica_distrital.csv          # matriz analítica del Hito 2 (1,270 × 47) — incluida en el repo
+    ├── diccionario_matriz_analitica.csv        # se genera con el Hito 2
     ├── resultados_hito3.csv                    # matriz + etiquetas de clustering del Hito 3
     ├── tablas_h3/                              # t01…t11: tablas que alimentan el informe
     └── figuras/                                # 01–16 (Hitos 2 y anteriores) y h3_01–h3_06 (Hito 3)
@@ -64,6 +65,7 @@ La base integrada resultante tiene **1 270 distritos** (inner join sobre `UBIGEO
 ```bash
 git clone https://github.com/delespurum/DataMining.git
 cd DataMining
+unzip DB.zip            # crea la carpeta DB/ con las dos fuentes
 pip install -r requirements.txt
 jupyter lab
 ```
@@ -72,7 +74,8 @@ Los cuadernos se ejecutan **de arriba abajo y en este orden**:
 
 1. `Notebook_Hito2_Matriz_Analitica.ipynb` (≈ 20–30 s; requiere `DB/`): genera
    `output/matriz_analitica_distrital.csv`.
-2. `Notebook_Hito3_Metodologia.ipynb` (≈ 15 s; solo requiere la matriz del paso 1): genera
+2. `Notebook_Hito3_Metodologia.ipynb` (≈ 15 s; solo requiere la matriz del paso 1, que ya viene
+   incluida en `output/`, por lo que puede ejecutarse sin correr el paso 1): genera
    `output/resultados_hito3.csv`, `output/tablas_h3/` y `output/figuras/h3_*.png`.
 
 Todos los resultados aleatorios usan la semilla `SEMILLA = 42`. En Google Colab, subir la carpeta
@@ -81,8 +84,9 @@ configuración.
 
 ## Obtener los datos
 
-Los microdatos no se versionan (el CSV de la ENAHO pesa ~260 MB). Hay que descargarlos y dejarlos en
-`DB/` con estos nombres exactos:
+Las dos fuentes vienen incluidas en `DB.zip` (el CSV de la ENAHO pesa ~260 MB sin comprimir); basta
+con descomprimirlo en la raíz del repositorio. Si se prefiere descargarlas de nuevo desde el INEI,
+hay que dejarlas en `DB/` con estos nombres exactos:
 
 **1. ENAHO 2024 — Módulo 500 (Empleo e Ingresos)** → `DB/2024Empleo e Ingresos.csv`
 <http://webinei.inei.gob.pe/anda_inei/index.php/catalog/816/get_microdata>
